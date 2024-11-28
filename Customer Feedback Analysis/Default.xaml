@@ -1,0 +1,522 @@
+﻿<Activity mc:Ignorable="sap sap2010 sads" x:Class="TruBotDesigner.Workflow" sap2010:WorkflowViewState.IdRef="TruBotDesigner.Workflow_1"
+ xmlns="http://schemas.microsoft.com/netfx/2009/xaml/activities"
+ xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+ xmlns:njl="clr-namespace:Newtonsoft.Json.Linq;assembly=Newtonsoft.Json"
+ xmlns:sads="http://schemas.microsoft.com/netfx/2010/xaml/activities/debugger"
+ xmlns:sap="http://schemas.microsoft.com/netfx/2009/xaml/activities/presentation"
+ xmlns:sap2010="http://schemas.microsoft.com/netfx/2010/xaml/activities/presentation"
+ xmlns:scg="clr-namespace:System.Collections.Generic;assembly=mscorlib"
+ xmlns:sco="clr-namespace:System.Collections.ObjectModel;assembly=mscorlib"
+ xmlns:snm="clr-namespace:System.Net.Mail;assembly=System"
+ xmlns:tca="clr-namespace:TruBot.Cryptography.Activities;assembly=TruBot.Cryptography.Activities"
+ xmlns:tca1="clr-namespace:TruBot.Core.Activities;assembly=TruBot.Core.Activities"
+ xmlns:tea="clr-namespace:TruBot.Email.Activities;assembly=TruBot.Email.Activities"
+ xmlns:twa="clr-namespace:TruBot.Web.Activities;assembly=TruBot.Web.Activities"
+ xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+  <TextExpression.NamespacesForImplementation>
+    <sco:Collection x:TypeArguments="x:String">
+      <x:String>WorkflowExecutorExtensions</x:String>
+      <x:String>System.Xml</x:String>
+      <x:String>System.Data</x:String>
+      <x:String>System.Collections.Generic</x:String>
+      <x:String>System.Activities</x:String>
+      <x:String>System.Collections</x:String>
+      <x:String>System</x:String>
+      <x:String>System.Text.RegularExpressions</x:String>
+      <x:String>System.Text.Json.Nodes</x:String>
+      <x:String>Newtonsoft.Json.Linq</x:String>
+      <x:String>Newtonsoft.Json</x:String>
+      <x:String>System.Security</x:String>
+    </sco:Collection>
+  </TextExpression.NamespacesForImplementation>
+  <TextExpression.ReferencesForImplementation>
+    <sco:Collection x:TypeArguments="AssemblyReference">
+      <AssemblyReference>TruBotExecutor</AssemblyReference>
+      <AssemblyReference>System.Xml</AssemblyReference>
+      <AssemblyReference>System.Data</AssemblyReference>
+      <AssemblyReference>mscorlib</AssemblyReference>
+      <AssemblyReference>System</AssemblyReference>
+      <AssemblyReference>System.Core</AssemblyReference>
+      <AssemblyReference>System.ServiceModel</AssemblyReference>
+      <AssemblyReference>TruBot.Cryptography</AssemblyReference>
+      <AssemblyReference>TruBot.Email</AssemblyReference>
+      <AssemblyReference>TruBot.FTP.Activities</AssemblyReference>
+      <AssemblyReference>TruBot.PDF</AssemblyReference>
+      <AssemblyReference>System.Activities</AssemblyReference>
+      <AssemblyReference>DevExpress.Printing.v20.1.Core</AssemblyReference>
+      <AssemblyReference>System.ValueTuple</AssemblyReference>
+      <AssemblyReference>System.ComponentModel.Composition</AssemblyReference>
+      <AssemblyReference>System.Memory</AssemblyReference>
+      <AssemblyReference>System.Memory.Data</AssemblyReference>
+      <AssemblyReference>System.Text.Json</AssemblyReference>
+      <AssemblyReference>Microsoft.Bcl.AsyncInterfaces</AssemblyReference>
+      <AssemblyReference>System.Runtime.WindowsRuntime</AssemblyReference>
+      <AssemblyReference>Newtonsoft.Json</AssemblyReference>
+    </sco:Collection>
+  </TextExpression.ReferencesForImplementation>
+  <Sequence sap2010:WorkflowViewState.IdRef="Sequence_8">
+    <Sequence sap2010:WorkflowViewState.IdRef="Sequence_1">
+      <Sequence.Variables>
+        <Variable x:TypeArguments="scg:List(snm:MailMessage)" Name="FetchedMails" />
+        <Variable x:TypeArguments="x:Int32" Default="0" Name="i" />
+        <Variable x:TypeArguments="x:String" Name="Formatted_FetchedMails" />
+        <Variable x:TypeArguments="x:Int32" Name="MailLoopIndex" />
+        <Variable x:TypeArguments="x:String" Default="D:\Hackathons\Customer Feedback Processing\Customer Feedback Analysis" Name="LogsFilePath" />
+        <Variable x:TypeArguments="x:String" Default="Logs.txt" Name="LogsFileName" />
+        <Variable x:TypeArguments="x:String" Name="Pass" />
+      </Sequence.Variables>
+      <tca:AssignPassword SecuredPassword="{x:Null}" DisplayName="Assign Password" sap2010:WorkflowViewState.IdRef="AssignPassword_1" IsSecured="False" MaskedPassword="[Pass]" Password="fbah wequ pier xbln" Pause="True" />
+      <tca1:CreateFile DisplayName="Create File" FileName="[LogsFileName]" FilePath="[LogsFilePath]" sap2010:WorkflowViewState.IdRef="CreateFile_1" Pause="True" />
+      <tea:GetImapMail Count="30" DeleteOnRead="False" DisplayName="Get IMAP Mail" Email="bhargavi2394.work@gmail.com" EnableSSL="True" sap2010:WorkflowViewState.IdRef="GetImapMail_1" MailFolder="bot" MarkAsRead="False" MessageList="[FetchedMails]" OnlyUnread="True" Password="[Pass]" Pause="True" Port="993" SecureConnection="Auto" Server="imap.gmail.com" TimeoutMS="30000" />
+      <tca1:ForEach x:TypeArguments="snm:MailMessage" DisplayName="For Each" ElementIndex="[MailLoopIndex]" sap2010:WorkflowViewState.IdRef="ForEach`1_1" Pause="True" Values="[FetchedMails]">
+        <tca1:ForEach.Body>
+          <ActivityAction x:TypeArguments="snm:MailMessage">
+            <ActivityAction.Argument>
+              <DelegateInArgument x:TypeArguments="snm:MailMessage" Name="Item" />
+            </ActivityAction.Argument>
+            <Sequence DisplayName="Body" sap2010:WorkflowViewState.IdRef="Sequence_2">
+              <If Condition="[Item.Subject.Contains(&quot;Customer Feedback&quot;)]" sap2010:WorkflowViewState.IdRef="If_1">
+                <If.Then>
+                  <Sequence sap2010:WorkflowViewState.IdRef="Sequence_3">
+                    <Sequence.Variables>
+                      <Variable x:TypeArguments="x:String" Name="APIBody" />
+                      <Variable x:TypeArguments="x:String" Default="I purchased your SmartSpeaker Pro 2000 Order ID: SG12345 last month, and I am delighted with its performance! The sound quality is crisp, and the voice commands work flawlessly. It’s truly a game-changer for my home setup. Kudos to your team!" Name="FeedbackText" />
+                      <Variable x:TypeArguments="x:String" Name="APIResult" />
+                      <Variable x:TypeArguments="x:String" Name="APIBodyLength" />
+                      <Variable x:TypeArguments="x:Int32" Name="APIStatusCode" />
+                      <Variable x:TypeArguments="x:String" Name="ExtractOrderIdResult" />
+                      <Variable x:TypeArguments="x:Int32" Name="ExtractOrderId_ResultStatusCode" />
+                      <Variable x:TypeArguments="x:String" Name="ExtractOrderIdBody" />
+                      <Variable x:TypeArguments="njl:JObject" Name="ExtractOrderId_ResultDesearilized" />
+                      <Variable x:TypeArguments="x:String" Name="ExtractCustomerName_Result" />
+                      <Variable x:TypeArguments="x:Int32" Name="ExtractCustomerName_StatusCode" />
+                      <Variable x:TypeArguments="x:String" Name="CategorizeFeedback_Result" />
+                      <Variable x:TypeArguments="x:Int32" Name="CategorizeFeedback_StatusCode" />
+                      <Variable x:TypeArguments="x:String" Name="SentimentAnalysis_Result" />
+                      <Variable x:TypeArguments="x:Int32" Name="SentimentAnalysis_StatusCode" />
+                      <Variable x:TypeArguments="njl:JObject" Name="ExtractCustomerName_ResultDesearilized" />
+                      <Variable x:TypeArguments="njl:JObject" Name="CategorizeFeedback_ResultDesearilized" />
+                      <Variable x:TypeArguments="njl:JArray" Name="SentimentAnalysis_DesearilizedResultArray" />
+                      <Variable x:TypeArguments="x:String" Name="OrderID" />
+                      <Variable x:TypeArguments="x:String" Name="CustomerName" />
+                      <Variable x:TypeArguments="x:String" Name="FeedbackCategory" />
+                      <Variable x:TypeArguments="x:String" Name="SentimentAnalysis" />
+                      <Variable x:TypeArguments="x:String" Name="SentimentScore" />
+                    </Sequence.Variables>
+                    <Assign sap2010:WorkflowViewState.IdRef="Assign_1">
+                      <Assign.To>
+                        <OutArgument x:TypeArguments="x:String">[Formatted_FetchedMails]</OutArgument>
+                      </Assign.To>
+                      <Assign.Value>
+                        <InArgument x:TypeArguments="x:String">[System.Text.RegularExpressions.Regex.Replace(Item.Body, "&lt;[^&gt;]*&gt;", "").Trim]</InArgument>
+                      </Assign.Value>
+                    </Assign>
+                    <Assign DisplayName="Assign ExtractOrderIdApiCallBody" sap2010:WorkflowViewState.IdRef="Assign_4">
+                      <Assign.To>
+                        <OutArgument x:TypeArguments="x:String">[ExtractOrderIdBody]</OutArgument>
+                      </Assign.To>
+                      <Assign.Value>
+                        <InArgument x:TypeArguments="x:String">["{""inputs"": { ""question"": ""What is the Order ID?"", ""context"": """+Formatted_FetchedMails+""" }}"]</InArgument>
+                      </Assign.Value>
+                    </Assign>
+                    <twa:HttpClient ContinueAfterError="{x:Null}" ResourcePath="{x:Null}" ResponseHeaders="{x:Null}" AcceptFormat="JSON" Body="[&quot;{&quot;&quot;inputs&quot;&quot;: { &quot;&quot;question&quot;&quot;: &quot;&quot;What is the Order ID?&quot;&quot;, &quot;&quot;context&quot;&quot;: &quot;&quot;&quot;+Formatted_FetchedMails+&quot;&quot;&quot; }}&quot;]" BodyFormatField="application/json" DisplayName="API_HF_ExtractOrderId" sap2010:WorkflowViewState.IdRef="HttpClient_3" Method="POST" Pause="True" RequestURL="https://api-inference.huggingface.co/models/distilbert/distilbert-base-uncased-distilled-squad" Result="[ExtractOrderIdResult]" SSLVerification="False" StatusCode="[ExtractOrderId_ResultStatusCode]" TimeoutMS="30000">
+                      <twa:HttpClient.Attachments>
+                        <scg:Dictionary x:TypeArguments="x:String, InArgument(x:String)" />
+                      </twa:HttpClient.Attachments>
+                      <twa:HttpClient.ClientCertificate>
+                        <InArgument x:TypeArguments="x:String" />
+                      </twa:HttpClient.ClientCertificate>
+                      <twa:HttpClient.ClientCertificatePassword>
+                        <InArgument x:TypeArguments="x:String" />
+                      </twa:HttpClient.ClientCertificatePassword>
+                      <twa:HttpClient.ConsumerKey>
+                        <InArgument x:TypeArguments="x:String" />
+                      </twa:HttpClient.ConsumerKey>
+                      <twa:HttpClient.ConsumerSecret>
+                        <InArgument x:TypeArguments="x:String" />
+                      </twa:HttpClient.ConsumerSecret>
+                      <twa:HttpClient.Cookies>
+                        <scg:Dictionary x:TypeArguments="x:String, InArgument(x:String)" />
+                      </twa:HttpClient.Cookies>
+                      <twa:HttpClient.Headers>
+                        <InArgument x:TypeArguments="x:String" x:Key="Authorization">Bearer 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</InArgument>
+                        <InArgument x:TypeArguments="x:String" x:Key="Content-Type">application/json</InArgument>
+                      </twa:HttpClient.Headers>
+                      <twa:HttpClient.OAuth1Token>
+                        <InArgument x:TypeArguments="x:String" />
+                      </twa:HttpClient.OAuth1Token>
+                      <twa:HttpClient.OAuth1TokenSecret>
+                        <InArgument x:TypeArguments="x:String" />
+                      </twa:HttpClient.OAuth1TokenSecret>
+                      <twa:HttpClient.OAuth2Token>
+                        <InArgument x:TypeArguments="x:String" />
+                      </twa:HttpClient.OAuth2Token>
+                      <twa:HttpClient.Parameters>
+                        <scg:Dictionary x:TypeArguments="x:String, InArgument(x:String)" />
+                      </twa:HttpClient.Parameters>
+                      <twa:HttpClient.Password>
+                        <InArgument x:TypeArguments="x:String" />
+                      </twa:HttpClient.Password>
+                      <twa:HttpClient.UrlSegments>
+                        <scg:Dictionary x:TypeArguments="x:String, InArgument(x:String)" />
+                      </twa:HttpClient.UrlSegments>
+                      <twa:HttpClient.Username>
+                        <InArgument x:TypeArguments="x:String" />
+                      </twa:HttpClient.Username>
+                    </twa:HttpClient>
+                    <tca1:LogMessage DisplayName="Log API Status" sap2010:WorkflowViewState.IdRef="LogMessage_1" Level="Information" Message="[&quot;ExtracrOrderId Status Code: &quot;+ExtractOrderId_ResultStatusCode.ToString+Environment.NewLine+&quot;ExtractOrderId Result: &quot;+ExtractOrderIdResult]" Pause="True" />
+                    <tca1:WriteTextFile DisplayName="Log API Status to Log File" FilePath="[LogsFilePath+&quot;\&quot;+LogsFileName]" sap2010:WorkflowViewState.IdRef="WriteTextFile_1" Pause="True" Value="[System.DateTime.Now.ToString(&quot;dd-MM-yyyy hh:mm&quot;)+&quot; ExtractOrderId API Call Status: &quot;+ExtractOrderId_ResultStatusCode.ToString]" />
+                    <Delay DisplayName="Delay 20s" Duration="00:00:20" sap2010:WorkflowViewState.IdRef="Delay_1" />
+                    <twa:HttpClient ContinueAfterError="{x:Null}" ResourcePath="{x:Null}" ResponseHeaders="{x:Null}" AcceptFormat="JSON" Body="[&quot;{&quot;&quot;inputs&quot;&quot;: { &quot;&quot;question&quot;&quot;: &quot;&quot;What is my name?&quot;&quot;, &quot;&quot;context&quot;&quot;: &quot;&quot;&quot;+Formatted_FetchedMails+&quot;&quot;&quot; }}&quot;]" BodyFormatField="application/json" DisplayName="API_HF_ExtractCustomerName" sap2010:WorkflowViewState.IdRef="HttpClient_4" Method="POST" Pause="True" RequestURL="https://api-inference.huggingface.co/models/distilbert/distilbert-base-uncased-distilled-squad" Result="[ExtractCustomerName_Result]" SSLVerification="False" StatusCode="[ExtractCustomerName_StatusCode]" TimeoutMS="30000">
+                      <twa:HttpClient.Attachments>
+                        <scg:Dictionary x:TypeArguments="x:String, InArgument(x:String)" />
+                      </twa:HttpClient.Attachments>
+                      <twa:HttpClient.ClientCertificate>
+                        <InArgument x:TypeArguments="x:String" />
+                      </twa:HttpClient.ClientCertificate>
+                      <twa:HttpClient.ClientCertificatePassword>
+                        <InArgument x:TypeArguments="x:String" />
+                      </twa:HttpClient.ClientCertificatePassword>
+                      <twa:HttpClient.ConsumerKey>
+                        <InArgument x:TypeArguments="x:String" />
+                      </twa:HttpClient.ConsumerKey>
+                      <twa:HttpClient.ConsumerSecret>
+                        <InArgument x:TypeArguments="x:String" />
+                      </twa:HttpClient.ConsumerSecret>
+                      <twa:HttpClient.Cookies>
+                        <scg:Dictionary x:TypeArguments="x:String, InArgument(x:String)" />
+                      </twa:HttpClient.Cookies>
+                      <twa:HttpClient.Headers>
+                        <InArgument x:TypeArguments="x:String" x:Key="Authorization">Bearer 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</InArgument>
+                        <InArgument x:TypeArguments="x:String" x:Key="Content-Type">application/json</InArgument>
+                      </twa:HttpClient.Headers>
+                      <twa:HttpClient.OAuth1Token>
+                        <InArgument x:TypeArguments="x:String" />
+                      </twa:HttpClient.OAuth1Token>
+                      <twa:HttpClient.OAuth1TokenSecret>
+                        <InArgument x:TypeArguments="x:String" />
+                      </twa:HttpClient.OAuth1TokenSecret>
+                      <twa:HttpClient.OAuth2Token>
+                        <InArgument x:TypeArguments="x:String" />
+                      </twa:HttpClient.OAuth2Token>
+                      <twa:HttpClient.Parameters>
+                        <scg:Dictionary x:TypeArguments="x:String, InArgument(x:String)" />
+                      </twa:HttpClient.Parameters>
+                      <twa:HttpClient.Password>
+                        <InArgument x:TypeArguments="x:String" />
+                      </twa:HttpClient.Password>
+                      <twa:HttpClient.UrlSegments>
+                        <scg:Dictionary x:TypeArguments="x:String, InArgument(x:String)" />
+                      </twa:HttpClient.UrlSegments>
+                      <twa:HttpClient.Username>
+                        <InArgument x:TypeArguments="x:String" />
+                      </twa:HttpClient.Username>
+                    </twa:HttpClient>
+                    <tca1:LogMessage DisplayName="Log API Status" sap2010:WorkflowViewState.IdRef="LogMessage_2" Level="Information" Message="[&quot;ExtracrCustomerName Status Code: &quot;+ExtractCustomerName_StatusCode.ToString+Environment.NewLine+&quot;ExtractCustomerName Result: &quot;+ExtractCustomerName_Result]" Pause="True" />
+                    <tca1:AppendLine DisplayName="Append API Status to Log File" FilePath="[LogsFilePath+&quot;\&quot;+LogsFileName]" sap2010:WorkflowViewState.IdRef="AppendLine_1" Pause="True" Value="[System.DateTime.Now.ToString(&quot;dd-MM-yyyy hh:mm&quot;)+&quot; ExtractCustomerName API Call Status: &quot;+ExtractCustomerName_StatusCode.ToString]" />
+                    <twa:HttpClient ContinueAfterError="{x:Null}" ResourcePath="{x:Null}" ResponseHeaders="{x:Null}" AcceptFormat="JSON" Body="[&quot;{&quot;&quot;inputs&quot;&quot;: &quot;&quot;&quot;+Formatted_FetchedMails+&quot;&quot;&quot;, &quot;&quot;parameters&quot;&quot;: {&quot;&quot;candidate_labels&quot;&quot;: [&quot;&quot;product&quot;&quot;, &quot;&quot;service&quot;&quot;, &quot;&quot;delivery&quot;&quot;]}}&quot;]" BodyFormatField="application/json" DisplayName="API_HF_CategorizeFeedback" sap2010:WorkflowViewState.IdRef="HttpClient_5" Method="POST" Pause="True" RequestURL="https://api-inference.huggingface.co/models/facebook/bart-large-mnli" Result="[CategorizeFeedback_Result]" SSLVerification="False" StatusCode="[CategorizeFeedback_StatusCode]" TimeoutMS="30000">
+                      <twa:HttpClient.Attachments>
+                        <scg:Dictionary x:TypeArguments="x:String, InArgument(x:String)" />
+                      </twa:HttpClient.Attachments>
+                      <twa:HttpClient.ClientCertificate>
+                        <InArgument x:TypeArguments="x:String" />
+                      </twa:HttpClient.ClientCertificate>
+                      <twa:HttpClient.ClientCertificatePassword>
+                        <InArgument x:TypeArguments="x:String" />
+                      </twa:HttpClient.ClientCertificatePassword>
+                      <twa:HttpClient.ConsumerKey>
+                        <InArgument x:TypeArguments="x:String" />
+                      </twa:HttpClient.ConsumerKey>
+                      <twa:HttpClient.ConsumerSecret>
+                        <InArgument x:TypeArguments="x:String" />
+                      </twa:HttpClient.ConsumerSecret>
+                      <twa:HttpClient.Cookies>
+                        <scg:Dictionary x:TypeArguments="x:String, InArgument(x:String)" />
+                      </twa:HttpClient.Cookies>
+                      <twa:HttpClient.Headers>
+                        <InArgument x:TypeArguments="x:String" x:Key="Authorization">Bearer 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</InArgument>
+                        <InArgument x:TypeArguments="x:String" x:Key="Content-Type">application/json</InArgument>
+                      </twa:HttpClient.Headers>
+                      <twa:HttpClient.OAuth1Token>
+                        <InArgument x:TypeArguments="x:String" />
+                      </twa:HttpClient.OAuth1Token>
+                      <twa:HttpClient.OAuth1TokenSecret>
+                        <InArgument x:TypeArguments="x:String" />
+                      </twa:HttpClient.OAuth1TokenSecret>
+                      <twa:HttpClient.OAuth2Token>
+                        <InArgument x:TypeArguments="x:String" />
+                      </twa:HttpClient.OAuth2Token>
+                      <twa:HttpClient.Parameters>
+                        <scg:Dictionary x:TypeArguments="x:String, InArgument(x:String)" />
+                      </twa:HttpClient.Parameters>
+                      <twa:HttpClient.Password>
+                        <InArgument x:TypeArguments="x:String" />
+                      </twa:HttpClient.Password>
+                      <twa:HttpClient.UrlSegments>
+                        <scg:Dictionary x:TypeArguments="x:String, InArgument(x:String)" />
+                      </twa:HttpClient.UrlSegments>
+                      <twa:HttpClient.Username>
+                        <InArgument x:TypeArguments="x:String" />
+                      </twa:HttpClient.Username>
+                    </twa:HttpClient>
+                    <tca1:LogMessage DisplayName="Log API Status" sap2010:WorkflowViewState.IdRef="LogMessage_3" Level="Information" Message="[&quot;CategorizeFeedback Status Code: &quot;+CategorizeFeedback_StatusCode.ToString+Environment.NewLine+&quot;CategorizeFeedback Result: &quot;+CategorizeFeedback_Result]" Pause="True" />
+                    <tca1:AppendLine DisplayName="Append API Status to Log File" FilePath="[LogsFilePath+&quot;\&quot;+LogsFileName]" sap2010:WorkflowViewState.IdRef="AppendLine_2" Pause="True" Value="[System.DateTime.Now.ToString(&quot;dd-MM-yyyy hh:mm&quot;)+&quot; CategorizeFeedback API Call Status: &quot;+CategorizeFeedback_StatusCode.ToString]" />
+                    <twa:HttpClient ContinueAfterError="{x:Null}" ResourcePath="{x:Null}" ResponseHeaders="{x:Null}" AcceptFormat="JSON" Body="[&quot;{&quot;&quot;inputs&quot;&quot;: &quot;&quot;&quot;+Formatted_FetchedMails+&quot;&quot;&quot;}&quot;]" BodyFormatField="application/json" DisplayName="API_HF_SentimentAnalysis" sap2010:WorkflowViewState.IdRef="HttpClient_6" Method="POST" Pause="True" RequestURL="https://api-inference.huggingface.co/models/distilbert/distilbert-base-uncased-finetuned-sst-2-english" Result="[SentimentAnalysis_Result]" SSLVerification="False" StatusCode="[SentimentAnalysis_StatusCode]" TimeoutMS="30000">
+                      <twa:HttpClient.Attachments>
+                        <scg:Dictionary x:TypeArguments="x:String, InArgument(x:String)" />
+                      </twa:HttpClient.Attachments>
+                      <twa:HttpClient.ClientCertificate>
+                        <InArgument x:TypeArguments="x:String" />
+                      </twa:HttpClient.ClientCertificate>
+                      <twa:HttpClient.ClientCertificatePassword>
+                        <InArgument x:TypeArguments="x:String" />
+                      </twa:HttpClient.ClientCertificatePassword>
+                      <twa:HttpClient.ConsumerKey>
+                        <InArgument x:TypeArguments="x:String" />
+                      </twa:HttpClient.ConsumerKey>
+                      <twa:HttpClient.ConsumerSecret>
+                        <InArgument x:TypeArguments="x:String" />
+                      </twa:HttpClient.ConsumerSecret>
+                      <twa:HttpClient.Cookies>
+                        <scg:Dictionary x:TypeArguments="x:String, InArgument(x:String)" />
+                      </twa:HttpClient.Cookies>
+                      <twa:HttpClient.Headers>
+                        <InArgument x:TypeArguments="x:String" x:Key="Authorization">Bearer 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</InArgument>
+                        <InArgument x:TypeArguments="x:String" x:Key="Content-Type">application/json</InArgument>
+                      </twa:HttpClient.Headers>
+                      <twa:HttpClient.OAuth1Token>
+                        <InArgument x:TypeArguments="x:String" />
+                      </twa:HttpClient.OAuth1Token>
+                      <twa:HttpClient.OAuth1TokenSecret>
+                        <InArgument x:TypeArguments="x:String" />
+                      </twa:HttpClient.OAuth1TokenSecret>
+                      <twa:HttpClient.OAuth2Token>
+                        <InArgument x:TypeArguments="x:String" />
+                      </twa:HttpClient.OAuth2Token>
+                      <twa:HttpClient.Parameters>
+                        <scg:Dictionary x:TypeArguments="x:String, InArgument(x:String)" />
+                      </twa:HttpClient.Parameters>
+                      <twa:HttpClient.Password>
+                        <InArgument x:TypeArguments="x:String" />
+                      </twa:HttpClient.Password>
+                      <twa:HttpClient.UrlSegments>
+                        <scg:Dictionary x:TypeArguments="x:String, InArgument(x:String)" />
+                      </twa:HttpClient.UrlSegments>
+                      <twa:HttpClient.Username>
+                        <InArgument x:TypeArguments="x:String" />
+                      </twa:HttpClient.Username>
+                    </twa:HttpClient>
+                    <tca1:LogMessage DisplayName="Log API Status" sap2010:WorkflowViewState.IdRef="LogMessage_4" Level="Information" Message="[&quot;SentimentAnalysis Status Code: &quot;+SentimentAnalysis_StatusCode.ToString+Environment.NewLine+&quot;SentimentAnalysis Result: &quot;+SentimentAnalysis_Result]" Pause="True" />
+                    <tca1:AppendLine DisplayName="Append API Status to Log File" FilePath="[LogsFilePath+&quot;\&quot;+LogsFileName]" sap2010:WorkflowViewState.IdRef="AppendLine_3" Pause="True" Value="[System.DateTime.Now.ToString(&quot;dd-MM-yyyy hh:mm&quot;)+&quot; SentimentAnalysis API Call Status: &quot;+SentimentAnalysis_StatusCode.ToString]" />
+                    <twa:StringToJson x:TypeArguments="njl:JObject" DisplayName="String To Json" sap2010:WorkflowViewState.IdRef="StringToJson`1_1" JsonObject="[ExtractOrderId_ResultDesearilized]" Pause="True" String="[ExtractOrderIdResult]" />
+                    <twa:StringToJson x:TypeArguments="njl:JObject" DisplayName="String To Json" sap2010:WorkflowViewState.IdRef="StringToJson`1_2" JsonObject="[ExtractCustomerName_ResultDesearilized]" Pause="True" String="[ExtractCustomerName_Result]" />
+                    <twa:StringToJson x:TypeArguments="njl:JObject" DisplayName="String To Json" sap2010:WorkflowViewState.IdRef="StringToJson`1_3" JsonObject="[CategorizeFeedback_ResultDesearilized]" Pause="True" String="[CategorizeFeedback_Result]" />
+                    <twa:StringtoJsonArray DisplayName="String to Json Array" sap2010:WorkflowViewState.IdRef="StringtoJsonArray_1" JsonObjectArray="[SentimentAnalysis_DesearilizedResultArray]" Pause="True" String="[SentimentAnalysis_Result]" />
+                    <tca1:MultipleAssign DisplayName="Multiple Assign" sap2010:WorkflowViewState.IdRef="MultipleAssign_1">
+                      <tca1:MultipleAssign.AssignOperations>
+                        <scg:List x:TypeArguments="tca1:OperationAssign" Capacity="8">
+                          <tca1:OperationAssign>
+                            <tca1:OperationAssign.To>
+                              <OutArgument x:TypeArguments="x:String">[OrderID]</OutArgument>
+                            </tca1:OperationAssign.To>
+                            <tca1:OperationAssign.Value>
+                              <InArgument x:TypeArguments="x:String">[ExtractOrderId_ResultDesearilized("answer").ToString]</InArgument>
+                            </tca1:OperationAssign.Value>
+                          </tca1:OperationAssign>
+                          <tca1:OperationAssign>
+                            <tca1:OperationAssign.To>
+                              <OutArgument x:TypeArguments="x:String">[CustomerName]</OutArgument>
+                            </tca1:OperationAssign.To>
+                            <tca1:OperationAssign.Value>
+                              <InArgument x:TypeArguments="x:String">[ExtractCustomerName_ResultDesearilized("answer").ToString]</InArgument>
+                            </tca1:OperationAssign.Value>
+                          </tca1:OperationAssign>
+                          <tca1:OperationAssign>
+                            <tca1:OperationAssign.To>
+                              <OutArgument x:TypeArguments="x:String">[FeedbackCategory]</OutArgument>
+                            </tca1:OperationAssign.To>
+                            <tca1:OperationAssign.Value>
+                              <InArgument x:TypeArguments="x:String">[CategorizeFeedback_ResultDesearilized("labels").First.ToString]</InArgument>
+                            </tca1:OperationAssign.Value>
+                          </tca1:OperationAssign>
+                          <tca1:OperationAssign>
+                            <tca1:OperationAssign.To>
+                              <OutArgument x:TypeArguments="x:String">[SentimentAnalysis]</OutArgument>
+                            </tca1:OperationAssign.To>
+                            <tca1:OperationAssign.Value>
+                              <InArgument x:TypeArguments="x:String">[SentimentAnalysis_DesearilizedResultArray(0)(0)("label").ToString]</InArgument>
+                            </tca1:OperationAssign.Value>
+                          </tca1:OperationAssign>
+                          <tca1:OperationAssign>
+                            <tca1:OperationAssign.To>
+                              <OutArgument x:TypeArguments="x:String">[SentimentScore]</OutArgument>
+                            </tca1:OperationAssign.To>
+                            <tca1:OperationAssign.Value>
+                              <InArgument x:TypeArguments="x:String">[SentimentAnalysis_DesearilizedResultArray(0)(0)("score").ToString]</InArgument>
+                            </tca1:OperationAssign.Value>
+                          </tca1:OperationAssign>
+                        </scg:List>
+                      </tca1:MultipleAssign.AssignOperations>
+                    </tca1:MultipleAssign>
+                    <tea:SendSMTPMail Attachments="{x:Null}" Bcc="{x:Null}" Cc="{x:Null}" MailMessage="{x:Null}" Result="{x:Null}" SenderName="{x:Null}" Body="[&quot;Greetings Team, the Customer Feedback Analysis Processing for the Order ID: &quot;+OrderID+&quot; is completed and following are the Key Details:-&quot;+Environment.NewLine+&quot;Mail Contents: &quot;+Formatted_FetchedMails+Environment.NewLine+&quot;Order ID: &quot;+OrderID+Environment.NewLine+&quot;Customer Name: &quot;+CustomerName+Environment.NewLine+&quot;Feedback Category: &quot;+FeedbackCategory+Environment.NewLine+&quot;Sentiment Score: &quot;+SentimentScore+Environment.NewLine+&quot;Feedback Outlook/Tone: &quot;+SentimentAnalysis+Environment.NewLine]" DisplayName="Send SMTP Mail" Email="bhargavi2394.work@gmail.com" EnableSSL="True" From="bhargavi2394.work@gmail.com" HtmlFlag="False" sap2010:WorkflowViewState.IdRef="SendSMTPMail_2" Password="[Pass]" Pause="True" Port="465" SecureConnection="Auto" Server="smtp.gmail.com" Subject="Customer Feedback Analysis Report" TimeoutMS="30000" To="bhargavi2394.work@gmail.com">
+                      <tea:SendSMTPMail.Files>
+                        <scg:List x:TypeArguments="InArgument(x:String)" Capacity="0" />
+                      </tea:SendSMTPMail.Files>
+                      <tea:SendSMTPMail._Attachments>
+                        <scg:List x:TypeArguments="x:String" Capacity="0" />
+                      </tea:SendSMTPMail._Attachments>
+                    </tea:SendSMTPMail>
+                  </Sequence>
+                </If.Then>
+                <If.Else>
+                  <tca1:LogMessage DisplayName="Log API Status" sap2010:WorkflowViewState.IdRef="LogMessage_5" Level="Information" Message="No Mails Available to Process" Pause="True" />
+                </If.Else>
+              </If>
+            </Sequence>
+          </ActivityAction>
+        </tca1:ForEach.Body>
+      </tca1:ForEach>
+    </Sequence>
+    <sads:DebugSymbol.Symbol>d1JEOlxIYWNrYXRob25zXEN1c3RvbWVyIEZlZWRiYWNrIFByb2Nlc3NpbmdcQ3VzdG9tZXIgRmVlZGJhY2sgQW5hbHlzaXNcRGVmYXVsdC54YW1sgwE5A/0CDgIBAToF+wIQAgECPTU9OAIBBUA2QH0CAQRBNkFAAgEDRAdE3wEDAa4BRQdFpAEDAakBRgdG+gIDAZ4BRwf6AhYCAQZEqAFEsAEDAa8BRTtFSwMBrAFFVUVlAwGqAUbpAUb5AQMBpwFG8AJG9wIDAaYBRlpGdwMBpQFGHkYiAwGkAUawAka1AgMBowFG1QJG5QIDAaIBRpUCRp0CAwGgAUbEAUbJAQMBnwFHrwFHvwEDAZwBR1tHbAMBmgFNDfcCGAIBB04P9gIUAgEITh1OVQIBCVAT8QIeAgEN9AIT9AK7AQIBC1NEU7gCAgEOahVxHgMBlQFyFXkeAwGQAXoVpgEmAwGEAacBFacBwAIDAYIBqAEVqAHkAgIBfKkBFakBdAIBeqoBFdYBJgIBbtcBFdcBzwICAWzYARXYAeUCAgFm2QEVhQImAgFahgIVhgLLAgIBWIcCFYcC4wICAVKIAhW0AiYCAUa1AhW1AscCAgFEtgIVtgLhAgIBPrcCFbcC9QECATm4AhW4AoACAgE0uQIVuQL+AQIBL7oCFboC9gECASq7AhXoAisCARrpAhXwAigCAQ/0AowB9AKrAQIBDG9Ab5YBAwGYAWxBbFkDAZYBd0B3qgEDAZMBdEF0VQMBkQF64gV66QUDAY8Beo8BevMCAwGNAY4BVo4BggEDAYwBeoQDepYDAwGLAXr4BHqQBQMBiQF6kAR68AQDAYgBerQFetcFAwGGAY8BVY8BZQMBhQGnAY4BpwGwAgMBgwGoAcwBqAHhAgMBgAGoAVuoAYYBAgF9qQE9qQFHAgF7qgHnBaoB7gUCAXmqAY8BqgHuAgIBd74BVr4BggECAXaqAf8CqgGRAwIBdaoB+ASqAZYFAgFzqgGQBKoB8AQCAXKqAboFqgHcBQIBcL8BVb8BZQIBb9cBjgHXAb8CAgFt2AHJAdgB4gICAWrYAVvYAYYBAgFn2QGPBtkBlgYCAWXZAY8B2QGzAwIBY+0BVu0BggECAWLZAcQD2QHWAwIBYdkBogXZAb8FAgFf2QHUBNkBmgUCAV7ZAeMF2QGEBgIBXO4BVe4BZQIBW4YCjgGGArsCAgFZhwLJAYcC4AICAVaHAluHAoYBAgFTiAL4BIgC/wQCAVGIAo8BiAL9AQIBT5wCVpwCggECAU6IAo4CiAKgAgIBTYgCjQSIAqkEAgFLiAKdA4gChQQCAUqIAs0EiALtBAIBSJ0CVZ0CZQIBR7UCjgG1ArcCAgFFtgLJAbYC3gICAUK2Alu2AoYBAgE/twLaAbcC8gECATy3AqABtwLFAQIBOrgC3wG4Av0BAgE3uAKgAbgCygECATW5At4BuQL7AQIBMrkCoAG5AskBAgEwugLXAboC8wECAS26ApUBugLCAQIBK8MCRsMCfAIBKcACR8ACUAIBJ8sCRssCgQECASbIAkfIAlUCASTTAkbTAoYBAgEj0AJH0AJZAgEh2wJG2wKJAQIBINgCR9gCWgIBHuMCRuMCiQECAR3gAkfgAlcCARvpAq8I6QLMCAIBGekCpAjpAqsIAgEY6QKfAekC3AUCARfpAvYH6QKZCAIBFukCtAbpAtEGAgEV6QKABukCnQYCARTpArgH6QK9BwIBE+kC3QfpAu0HAgES6QKdB+kCpQcCARC+AhvFAjIDARoGxgIbzQIyAwEaBc4CG9UCMgMBGgTWAhvdAjIDARoD3gIb5QIyAwEaAg==</sads:DebugSymbol.Symbol>
+  </Sequence>
+  <sap2010:WorkflowViewState.ViewStateManager>
+    <sap2010:ViewStateManager>
+      <sap2010:ViewStateData Id="AssignPassword_1" sap:VirtualizedContainerService.HintSize="658.4,81.6">
+        <sap:WorkflowViewStateService.ViewState>
+          <scg:Dictionary x:TypeArguments="x:String, x:Object">
+            <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+            <x:Boolean x:Key="IsPinned">False</x:Boolean>
+          </scg:Dictionary>
+        </sap:WorkflowViewStateService.ViewState>
+      </sap2010:ViewStateData>
+      <sap2010:ViewStateData Id="CreateFile_1" sap:VirtualizedContainerService.HintSize="658.4,22.4" />
+      <sap2010:ViewStateData Id="GetImapMail_1" sap:VirtualizedContainerService.HintSize="658.4,22.4" />
+      <sap2010:ViewStateData Id="Assign_1" sap:VirtualizedContainerService.HintSize="385.6,60" />
+      <sap2010:ViewStateData Id="Assign_4" sap:VirtualizedContainerService.HintSize="385.6,60" />
+      <sap2010:ViewStateData Id="HttpClient_3" sap:VirtualizedContainerService.HintSize="385.6,52.8">
+        <sap:WorkflowViewStateService.ViewState>
+          <scg:Dictionary x:TypeArguments="x:String, x:Object">
+            <x:Boolean x:Key="IsExpanded">False</x:Boolean>
+            <x:Boolean x:Key="IsPinned">False</x:Boolean>
+          </scg:Dictionary>
+        </sap:WorkflowViewStateService.ViewState>
+      </sap2010:ViewStateData>
+      <sap2010:ViewStateData Id="LogMessage_1" sap:VirtualizedContainerService.HintSize="385.6,52.8">
+        <sap:WorkflowViewStateService.ViewState>
+          <scg:Dictionary x:TypeArguments="x:String, x:Object">
+            <x:Boolean x:Key="IsExpanded">False</x:Boolean>
+            <x:Boolean x:Key="IsPinned">False</x:Boolean>
+          </scg:Dictionary>
+        </sap:WorkflowViewStateService.ViewState>
+      </sap2010:ViewStateData>
+      <sap2010:ViewStateData Id="WriteTextFile_1" sap:VirtualizedContainerService.HintSize="385.6,52.8">
+        <sap:WorkflowViewStateService.ViewState>
+          <scg:Dictionary x:TypeArguments="x:String, x:Object">
+            <x:Boolean x:Key="IsExpanded">False</x:Boolean>
+            <x:Boolean x:Key="IsPinned">False</x:Boolean>
+          </scg:Dictionary>
+        </sap:WorkflowViewStateService.ViewState>
+      </sap2010:ViewStateData>
+      <sap2010:ViewStateData Id="Delay_1" sap:VirtualizedContainerService.HintSize="385.6,22.4" />
+      <sap2010:ViewStateData Id="HttpClient_4" sap:VirtualizedContainerService.HintSize="385.6,52.8">
+        <sap:WorkflowViewStateService.ViewState>
+          <scg:Dictionary x:TypeArguments="x:String, x:Object">
+            <x:Boolean x:Key="IsExpanded">False</x:Boolean>
+            <x:Boolean x:Key="IsPinned">False</x:Boolean>
+          </scg:Dictionary>
+        </sap:WorkflowViewStateService.ViewState>
+      </sap2010:ViewStateData>
+      <sap2010:ViewStateData Id="LogMessage_2" sap:VirtualizedContainerService.HintSize="385.6,52.8">
+        <sap:WorkflowViewStateService.ViewState>
+          <scg:Dictionary x:TypeArguments="x:String, x:Object">
+            <x:Boolean x:Key="IsExpanded">False</x:Boolean>
+            <x:Boolean x:Key="IsPinned">False</x:Boolean>
+          </scg:Dictionary>
+        </sap:WorkflowViewStateService.ViewState>
+      </sap2010:ViewStateData>
+      <sap2010:ViewStateData Id="AppendLine_1" sap:VirtualizedContainerService.HintSize="385.6,52.8">
+        <sap:WorkflowViewStateService.ViewState>
+          <scg:Dictionary x:TypeArguments="x:String, x:Object">
+            <x:Boolean x:Key="IsExpanded">False</x:Boolean>
+            <x:Boolean x:Key="IsPinned">False</x:Boolean>
+          </scg:Dictionary>
+        </sap:WorkflowViewStateService.ViewState>
+      </sap2010:ViewStateData>
+      <sap2010:ViewStateData Id="HttpClient_5" sap:VirtualizedContainerService.HintSize="385.6,52.8">
+        <sap:WorkflowViewStateService.ViewState>
+          <scg:Dictionary x:TypeArguments="x:String, x:Object">
+            <x:Boolean x:Key="IsExpanded">False</x:Boolean>
+            <x:Boolean x:Key="IsPinned">False</x:Boolean>
+          </scg:Dictionary>
+        </sap:WorkflowViewStateService.ViewState>
+      </sap2010:ViewStateData>
+      <sap2010:ViewStateData Id="LogMessage_3" sap:VirtualizedContainerService.HintSize="385.6,52.8">
+        <sap:WorkflowViewStateService.ViewState>
+          <scg:Dictionary x:TypeArguments="x:String, x:Object">
+            <x:Boolean x:Key="IsExpanded">False</x:Boolean>
+            <x:Boolean x:Key="IsPinned">False</x:Boolean>
+          </scg:Dictionary>
+        </sap:WorkflowViewStateService.ViewState>
+      </sap2010:ViewStateData>
+      <sap2010:ViewStateData Id="AppendLine_2" sap:VirtualizedContainerService.HintSize="385.6,52.8">
+        <sap:WorkflowViewStateService.ViewState>
+          <scg:Dictionary x:TypeArguments="x:String, x:Object">
+            <x:Boolean x:Key="IsExpanded">False</x:Boolean>
+            <x:Boolean x:Key="IsPinned">False</x:Boolean>
+          </scg:Dictionary>
+        </sap:WorkflowViewStateService.ViewState>
+      </sap2010:ViewStateData>
+      <sap2010:ViewStateData Id="HttpClient_6" sap:VirtualizedContainerService.HintSize="385.6,52.8">
+        <sap:WorkflowViewStateService.ViewState>
+          <scg:Dictionary x:TypeArguments="x:String, x:Object">
+            <x:Boolean x:Key="IsExpanded">False</x:Boolean>
+            <x:Boolean x:Key="IsPinned">False</x:Boolean>
+          </scg:Dictionary>
+        </sap:WorkflowViewStateService.ViewState>
+      </sap2010:ViewStateData>
+      <sap2010:ViewStateData Id="LogMessage_4" sap:VirtualizedContainerService.HintSize="385.6,52.8">
+        <sap:WorkflowViewStateService.ViewState>
+          <scg:Dictionary x:TypeArguments="x:String, x:Object">
+            <x:Boolean x:Key="IsExpanded">False</x:Boolean>
+            <x:Boolean x:Key="IsPinned">False</x:Boolean>
+          </scg:Dictionary>
+        </sap:WorkflowViewStateService.ViewState>
+      </sap2010:ViewStateData>
+      <sap2010:ViewStateData Id="AppendLine_3" sap:VirtualizedContainerService.HintSize="385.6,52.8">
+        <sap:WorkflowViewStateService.ViewState>
+          <scg:Dictionary x:TypeArguments="x:String, x:Object">
+            <x:Boolean x:Key="IsExpanded">False</x:Boolean>
+            <x:Boolean x:Key="IsPinned">False</x:Boolean>
+          </scg:Dictionary>
+        </sap:WorkflowViewStateService.ViewState>
+      </sap2010:ViewStateData>
+      <sap2010:ViewStateData Id="StringToJson`1_1" sap:VirtualizedContainerService.HintSize="385.6,60" />
+      <sap2010:ViewStateData Id="StringToJson`1_2" sap:VirtualizedContainerService.HintSize="385.6,60" />
+      <sap2010:ViewStateData Id="StringToJson`1_3" sap:VirtualizedContainerService.HintSize="385.6,60" />
+      <sap2010:ViewStateData Id="StringtoJsonArray_1" sap:VirtualizedContainerService.HintSize="385.6,60" />
+      <sap2010:ViewStateData Id="MultipleAssign_1" sap:VirtualizedContainerService.HintSize="385.6,227.2" />
+      <sap2010:ViewStateData Id="SendSMTPMail_2" sap:VirtualizedContainerService.HintSize="385.6,143.2" />
+      <sap2010:ViewStateData Id="Sequence_3" sap:VirtualizedContainerService.HintSize="404.8,2279.2" />
+      <sap2010:ViewStateData Id="LogMessage_5" sap:VirtualizedContainerService.HintSize="200,52.8">
+        <sap:WorkflowViewStateService.ViewState>
+          <scg:Dictionary x:TypeArguments="x:String, x:Object">
+            <x:Boolean x:Key="IsExpanded">False</x:Boolean>
+            <x:Boolean x:Key="IsPinned">False</x:Boolean>
+          </scg:Dictionary>
+        </sap:WorkflowViewStateService.ViewState>
+      </sap2010:ViewStateData>
+      <sap2010:ViewStateData Id="If_1" sap:VirtualizedContainerService.HintSize="626.4,2428.8" />
+      <sap2010:ViewStateData Id="Sequence_2" sap:VirtualizedContainerService.HintSize="645.6,2521.6" />
+      <sap2010:ViewStateData Id="ForEach`1_1" sap:VirtualizedContainerService.HintSize="658.4,2656" />
+      <sap2010:ViewStateData Id="Sequence_1" sap:VirtualizedContainerService.HintSize="677.6,2995.2">
+        <sap:WorkflowViewStateService.ViewState>
+          <scg:Dictionary x:TypeArguments="x:String, x:Object">
+            <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+          </scg:Dictionary>
+        </sap:WorkflowViewStateService.ViewState>
+      </sap2010:ViewStateData>
+      <sap2010:ViewStateData Id="Sequence_8" sap:VirtualizedContainerService.HintSize="696.8,3088" />
+      <sap2010:ViewStateData Id="TruBotDesigner.Workflow_1" sap:VirtualizedContainerService.HintSize="736.8,3168" />
+    </sap2010:ViewStateManager>
+  </sap2010:WorkflowViewState.ViewStateManager>
+</Activity>

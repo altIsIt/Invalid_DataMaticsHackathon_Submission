@@ -1,0 +1,58 @@
+﻿<Activity mc:Ignorable="sap sap2010 sads" x:Class="TruBotDesigner.Workflow" sap2010:WorkflowViewState.IdRef="TruBotDesigner.Workflow_1"
+ xmlns="http://schemas.microsoft.com/netfx/2009/xaml/activities"
+ xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+ xmlns:sads="http://schemas.microsoft.com/netfx/2010/xaml/activities/debugger"
+ xmlns:sap="http://schemas.microsoft.com/netfx/2009/xaml/activities/presentation"
+ xmlns:sap2010="http://schemas.microsoft.com/netfx/2010/xaml/activities/presentation"
+ xmlns:scg="clr-namespace:System.Collections.Generic;assembly=mscorlib"
+ xmlns:sco="clr-namespace:System.Collections.ObjectModel;assembly=mscorlib"
+ xmlns:tca="clr-namespace:TruBot.Cryptography.Activities;assembly=TruBot.Cryptography.Activities"
+ xmlns:tea="clr-namespace:TruBot.Email.Activities;assembly=TruBot.Email.Activities"
+ xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+  <TextExpression.NamespacesForImplementation>
+    <sco:Collection x:TypeArguments="x:String">
+      <x:String>WorkflowExecutorExtensions</x:String>
+      <x:String>System.Xml</x:String>
+      <x:String>System.Data</x:String>
+      <x:String>System.Activities</x:String>
+    </sco:Collection>
+  </TextExpression.NamespacesForImplementation>
+  <TextExpression.ReferencesForImplementation>
+    <sco:Collection x:TypeArguments="AssemblyReference">
+      <AssemblyReference>TruBotExecutor</AssemblyReference>
+      <AssemblyReference>System.Xml</AssemblyReference>
+      <AssemblyReference>System.Data</AssemblyReference>
+      <AssemblyReference>System.Activities</AssemblyReference>
+    </sco:Collection>
+  </TextExpression.ReferencesForImplementation>
+  <Sequence sap2010:WorkflowViewState.IdRef="Sequence_1">
+    <Sequence.Variables>
+      <Variable x:TypeArguments="x:String" Name="Pass" />
+    </Sequence.Variables>
+    <tca:AssignPassword SecuredPassword="{x:Null}" DisplayName="Assign Password" IsSecured="False" MaskedPassword="[Pass]" Password="oqxa wamm xjcq zhxl" Pause="True" sap2010:WorkflowViewState.IdRef="AssignPassword_1" />
+    <tea:SendSMTPMail Attachments="{x:Null}" Bcc="{x:Null}" Cc="{x:Null}" MailMessage="{x:Null}" Result="{x:Null}" SenderName="{x:Null}" Body="Test Mail" DisplayName="Send SMTP Mail" Email="anayc.emergeflow@gmail.com" EnableSSL="True" From="anayc.emergeflow@gmail.com" HtmlFlag="False" Password="[Pass]" Pause="True" Port="465" SecureConnection="Auto" Server="smtp.gmail.com" Subject="Test" TimeoutMS="30000" To="anayc.emergeflow@gmail.com">
+      <tea:SendSMTPMail.Files>
+        <scg:List x:TypeArguments="InArgument(x:String)" Capacity="0" />
+      </tea:SendSMTPMail.Files>
+      <tea:SendSMTPMail._Attachments>
+        <scg:List x:TypeArguments="x:String" Capacity="0" />
+      </tea:SendSMTPMail._Attachments>
+      <sap2010:WorkflowViewState.IdRef>SendSMTPMail_1</sap2010:WorkflowViewState.IdRef>
+    </tea:SendSMTPMail>
+    <sads:DebugSymbol.Symbol>d09EOlxIYWNrYXRob25zXEN1c3RvbWVyIEZlZWRiYWNrIFByb2Nlc3NpbmdcQ3VzdG9tZXIgRmVlZGJhY2sgQW5hbHlzaXNcdGVzdC54YW1sDRwDKw4CAQEgBSDdAQIBDSEFKRgCAQIgcyB7AgEOIZ0DIbkDAgEMIZIDIZkDAgELIY8BIZoBAgEKIYEDIYcDAgEJIfEBIY0CAgEIIb4BIdoBAgEHIcMCIcgCAgEGIegCIfgCAgEFIagCIbACAgED</sads:DebugSymbol.Symbol>
+  </Sequence>
+  <sap2010:WorkflowViewState.ViewStateManager>
+    <sap2010:ViewStateManager>
+      <sap2010:ViewStateData Id="AssignPassword_1" sap:VirtualizedContainerService.HintSize="361.6,81.6" />
+      <sap2010:ViewStateData Id="SendSMTPMail_1" sap:VirtualizedContainerService.HintSize="361.6,143.2" />
+      <sap2010:ViewStateData Id="Sequence_1" sap:VirtualizedContainerService.HintSize="380.8,357.6">
+        <sap:WorkflowViewStateService.ViewState>
+          <scg:Dictionary x:TypeArguments="x:String, x:Object">
+            <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+          </scg:Dictionary>
+        </sap:WorkflowViewStateService.ViewState>
+      </sap2010:ViewStateData>
+      <sap2010:ViewStateData Id="TruBotDesigner.Workflow_1" sap:VirtualizedContainerService.HintSize="420.8,477.6" />
+    </sap2010:ViewStateManager>
+  </sap2010:WorkflowViewState.ViewStateManager>
+</Activity>

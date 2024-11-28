@@ -1,0 +1,4 @@
+28-11-2024 10:34 ExtractOrderId API Call Status: 200
+28-11-2024 10:35 ExtractCustomerName API Call Status: 200
+28-11-2024 10:35 CategorizeFeedback API Call Status: 200
+28-11-2024 10:35 SentimentAnalysis API Call Status: 200

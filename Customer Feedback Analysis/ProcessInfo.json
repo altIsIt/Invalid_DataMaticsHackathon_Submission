@@ -1,0 +1,75 @@
+{
+  "Name": "Customer Feedback Analysis",
+  "Dependencies": {
+    "TruBot.Contracts": "5.4.0.21668",
+    "TruBot.Activities.Contracts": "5.4.0.21668",
+    "TruBot.Activities.Design.Base": "5.4.0.21668",
+    "TruBot.Recorder.Activities": "5.4.0.21668",
+    "Trubot.Excel.Activities": "5.4.0.21668",
+    "TruBot.ActiveDirectoryServices.Activities": "5.4.0.21668",
+    "TruBot.Cockpit.Activities": "5.4.0.21668",
+    "TruBot.Cryptography.Activities": "5.4.0.21668",
+    "TruBot.Database.Activities": "5.4.0.21668",
+    "TruBot.Email.Activities": "5.4.0.21668",
+    "TruBot.FTP.Activities": "5.4.0.21668",
+    "TruBot.GoogleApp.Activities": "5.4.0.21668",
+    "TruBot.SAP.API.Activities": "5.4.0.21668",
+    "TruBot.WordDoc.Activities": "5.4.0.21668",
+    "Trubot.Core.Activities": "5.4.0.21668",
+    "TruBot.PDF.Activities": "5.4.0.21668",
+    "TruBot.SalesforceCRM.Activities": "5.4.0.21668",
+    "TruBot.Microsoft365.Activities": "5.4.0.21668",
+    "TruBot.AWS": "5.4.0.21668",
+    "TruBot.AWS.Activities": "5.4.0.21668",
+    "TruBot.QRCode.Activities": "5.4.0.21668",
+    "TruBot.TruCap.Activities": "5.4.0.21668",
+    "TruBot.Python.Activities": "5.4.0.21668",
+    "TruBot.MicrosoftDynamics365.Activities": "5.4.0.21668",
+    "TruBot.GenerativeAI.Activities": "[5.4.0.21919]",
+    "TruBot.Web.Activities": "[5.4.0.21919]",
+    "Newtonsoft.Json": "[13.0.3]",
+    "System.Text.Json": "[9.0.0]",
+    "Microsoft.Extensions.Http": "[9.0.0]",
+    "AWSSDK.Core": "[3.7.400.57]",
+    "AWSSDK.Comprehend": "[3.7.400.57]"
+  },
+  "Description": "",
+  "Main": "Default.xaml",
+  "SchemaVersion": "5.4.0.21668",
+  "StudioVersion": "5.4.0.21668",
+  "ProjectVersion": "1.0.0.0",
+  "RuntimeOptions": null,
+  "ProjectType": "Workflow",
+  "OutputFileName": "AgentOP.txt",
+  "WorkflowDocumentList": [
+    {
+      "WorkflowName": "Default.xaml",
+      "Description": null
+    },
+    {
+      "WorkflowName": "test.xaml",
+      "Description": null
+    }
+  ],
+  "ExternalReferencesList": [],
+  "CreatedDateTime": "26-11-2024 01:22:35 AM",
+  "ModifiedDateTime": "28-11-2024 10:39:24 PM",
+  "IsDependencyUpdated": true,
+  "NativePlayback": true,
+  "Selector": true,
+  "MainExceptionHandler": "",
+  "ExceptionHandlerList": [],
+  "ProcessCoreItems": [
+    {
+      "FileName": "SecurityInfo.json"
+    }
+  ],
+  "DomSelectorSecureFlag": true,
+  "UsedTemplateType": 0,
+  "UsedTemplateName": "None",
+  "IsDesktopRecorderForIE": true,
+  "ExportedVersion": "1.0.0.0",
+  "AgentDependencies": null,
+  "OtherDependencies": null,
+  "ProcessType": 0
+}
